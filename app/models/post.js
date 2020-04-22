@@ -148,8 +148,8 @@ export default Model.extend(Comparable, ValidationEngine, {
     internalTags: filterBy('tags', 'isInternal', true),
     isScheduled: equal('status', 'scheduled'),
 
-    previewUrl: computed('uuid', 'ghostPaths.url', 'config.blogUrl', function () {
-        let blogUrl = this.get('config.blogUrl');
+    previewUrl: computed('uuid', 'ghostPaths.url', 'config.staticSiteUrl', function () {
+        let staticSiteUrl = this.get('config.staticSiteUrl');
         let uuid = this.uuid;
         // routeKeywords.preview: 'p'
         let previewKeyword = 'p';
@@ -157,7 +157,17 @@ export default Model.extend(Comparable, ValidationEngine, {
         if (!uuid) {
             return '';
         }
-        return this.get('ghostPaths.url').join(blogUrl, previewKeyword, uuid);
+        return this.get('ghostPaths.url').join(staticSiteUrl, previewKeyword, uuid);
+    }),
+
+    liveUrl: computed('url', 'config.{blogUrl,staticSiteUrl}', function () {
+        let blogUrl = this.get('config.blogUrl');
+        let staticSiteUrl = this.get('config.staticSiteUrl');
+        let url = this.url;
+        if (blogUrl === staticSiteUrl) {
+            return url;
+        }
+        return url.replace(blogUrl, staticSiteUrl);
     }),
 
     // check every second to see if we're past the scheduled time

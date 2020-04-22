@@ -12,7 +12,7 @@ export default Component.extend({
         if (this.guid !== this._lastGuid) {
             let iframe = document.querySelector('#site-frame');
             if (iframe) {
-                iframe.src = `${this.config.get('blogUrl')}/`;
+                iframe.src = `${this.config.get('staticSiteUrl')}/`;
             }
         }
         this._lastGuid = this.guid;
