@@ -801,6 +801,11 @@ export default Controller.extend({
 
     _showSaveNotification(prevStatus, status, delay) {
         let message = messageMap.success.post[prevStatus][status];
+        let description;
+        if (message === 'Published' || message === 'Updated') {
+            message = 'Publishing...';
+            description = 'May take up to two minutes for content to go live everywhere.';
+        }
         let notifications = this.notifications;
         let actions, type, path;
 
@@ -814,7 +819,7 @@ export default Controller.extend({
             actions = `<a href="${path}" target="_blank">View ${type}</a>`;
         }
 
-        notifications.showNotification(message, {type: 'success', actions: actions.htmlSafe(), delayed: delay});
+        notifications.showNotification(message, {description, type: 'success', actions: actions.htmlSafe(), delayed: delay});
     },
 
     _showErrorAlert(prevStatus, status, error, delay) {
