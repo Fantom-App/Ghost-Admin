@@ -70,11 +70,17 @@
 
                 {{#unless this.session.user.isContributor}}
                 <div class="form-group">
+                    <label for="tag-input">Type</label>
+                    <GhPsmTypeInput @selectedType={{this.post.contentType}} @updateType={{action "changeType"}} @post={{this.post}} @triggerId="type-input" />
+                </div>
+                {{/unless}}
+
+                {{#unless this.session.user.isContributor}}
+                <div class="form-group">
                     <label for="tag-input">Tags</label>
                     <GhPsmTagsInput @post={{this.post}} @triggerId="tag-input" />
                 </div>
                 {{/unless}}
-
 
                 {{#if this.feature.members}}
                     {{#if this.showVisibilityInput}}

@@ -38,6 +38,7 @@ export default Factory.extend({
 
     authors() { return []; },
     tags() { return []; },
+    contentType: '',
 
     afterCreate(post, server) {
         if (isEmpty(post.authors)) {
