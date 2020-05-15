@@ -24,7 +24,7 @@
                         <DraggableObject @content={{navItem}} @dragHandle=".gh-blognav-grab" @isSortable={{true}}>
                             <GhNavitem
                                 @navItem={{navItem}}
-                                @baseUrl={{this.blogUrl}}
+                                @baseUrl={{this.staticSiteUrl}}
                                 @addItem={{action "addNavItem"}}
                                 @deleteItem={{action "deleteNavItem"}}
                                 @updateUrl={{action "updateUrl"}}
@@ -35,7 +35,7 @@
                 </SortableObjects>
                 <GhNavitem
                     @navItem={{this.newNavItem}}
-                    @baseUrl={{this.blogUrl}}
+                    @baseUrl={{this.staticSiteUrl}}
                     @addItem={{action "addNavItem"}}
                     @updateUrl={{action "updateUrl"}}
                     data-test-navitem="new" />
@@ -50,7 +50,7 @@
                         <DraggableObject @content={{navItem}} @dragHandle=".gh-blognav-grab" @isSortable={{true}}>
                             <GhNavitem
                                 @navItem={{navItem}}
-                                @baseUrl={{this.blogUrl}}
+                                @baseUrl={{this.staticSiteUrl}}
                                 @addItem={{action "addNavItem"}}
                                 @deleteItem={{action "deleteNavItem"}}
                                 @updateUrl={{action "updateUrl"}}
@@ -61,7 +61,7 @@
                 </SortableObjects>
                 <GhNavitem
                     @navItem={{this.newSecondaryNavItem}}
-                    @baseUrl={{this.blogUrl}}
+                    @baseUrl={{this.staticSiteUrl}}
                     @addItem={{action "addNavItem"}}
                     @updateUrl={{action "updateUrl"}}
                     data-test-navitem="new" />

@@ -39,10 +39,10 @@ export default Component.extend({
     }),
 
     seoURL: computed('scratchTag.slug', function () {
-        let blogUrl = this.get('config.blogUrl');
+        let staticSiteUrl = this.get('config.staticSiteUrl');
         let seoSlug = this.scratchTag.slug || '';
 
-        let seoURL = `${blogUrl}/tag/${seoSlug}`;
+        let seoURL = `${staticSiteUrl}/tag/${seoSlug}`;
 
         // only append a slash to the URL if the slug exists
         if (seoSlug) {

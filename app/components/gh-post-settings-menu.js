@@ -75,19 +75,19 @@ export default Component.extend(SettingsMenuMixin, {
         return placeholder;
     }),
 
-    seoURL: computed('post.{slug,canonicalUrl}', 'config.blogUrl', function () {
-        let blogUrl = this.get('config.blogUrl');
+    seoURL: computed('post.{slug,canonicalUrl}', 'config.staticSiteUrl', function () {
+        let staticSiteUrl = this.get('config.staticSiteUrl');
         let seoSlug = this.post.slug || '';
         let canonicalUrl = this.post.canonicalUrl || '';
 
         if (canonicalUrl) {
             if (canonicalUrl.match(/^\//)) {
-                return `${blogUrl}${canonicalUrl}`;
+                return `${staticSiteUrl}${canonicalUrl}`;
             } else {
                 return canonicalUrl;
             }
         } else {
-            let seoURL = `${blogUrl}/${seoSlug}`;
+            let seoURL = `${staticSiteUrl}/${seoSlug}`;
 
             // only append a slash to the URL if the slug exists
             if (seoSlug) {

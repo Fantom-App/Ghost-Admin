@@ -36,6 +36,7 @@ export default Service.extend(_ProxyMixin, {
         return this.ajax.request(siteUrl).then(({site}) => {
             // normalize url to non-trailing-slash
             site.blogUrl = site.url.replace(/\/$/, '');
+            site.staticSiteUrl = site.staticSiteUrl || site.blogUrl;
             site.blogTitle = site.title;
             delete site.url;
             delete site.title;
