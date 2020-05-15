@@ -112,7 +112,7 @@ export default Model.extend(Comparable, ValidationEngine, {
     email: belongsTo('email', {async: false}),
     publishedBy: belongsTo('user', {async: true}),
     tags: hasMany('tag', {embedded: 'always', async: false}),
-    contentType: attr('string', {defaultValue: ''}),
+    contentType: attr('string', {defaultValue: 'video'}),
 
     primaryAuthor: reads('authors.firstObject'),
 
