@@ -506,6 +506,22 @@ export default Component.extend(SettingsMenuMixin, {
             });
         },
 
+        changeType(newType) {
+            let post = this.post;
+
+            post.set('contentType', newType);
+
+            // if this is a new post (never been saved before), don't try to save it
+            if (post.get('isNew')) {
+                return;
+            }
+
+            this.savePost.perform().catch((error) => {
+                this.showError(error);
+                post.rollbackAttributes();
+            });
+        },
+
         deletePost() {
             if (this.deletePost) {
                 this.deletePost();
