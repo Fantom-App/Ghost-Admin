@@ -80,6 +80,7 @@
                     <LinkTo @route="members" @current-when="members member" @query={{hash label=null}} data-test-nav="members">{{svg-jar "members"}}Members</LinkTo>
                 </li>
             {{/if}}
+            <li><LinkTo @route="analytics" data-test-nav="analytics">{{svg-jar "analytics"}}Analytics</LinkTo></li>
             <li><LinkTo @route="staff" data-test-nav="staff">{{svg-jar "staff"}}Staff</LinkTo></li>
         </ul>
         {{#if (gh-user-can-admin this.session.user)}}

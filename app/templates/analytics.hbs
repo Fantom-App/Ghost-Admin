@@ -1,0 +1,20 @@
+<section class="gh-canvas tags-view">
+    <GhCanvasHeader class="gh-canvas-header tags-header">
+        <h2 class="gh-canvas-title" data-test-screen-title>Analytics</h2>
+        <section class="view-actions">
+            <GhAnalyticsContentfilter
+                @selectedLabel={{this.selectedLabel}}
+                @availableLabels={{this.availableLabels}}
+                @onLabelChange={{action "changeLabel"}}
+                @onLabelAdd={{action "addLabel"}}
+                @onLabelEdit={{action "editLabel"}}
+            />
+        </section>
+    </GhCanvasHeader>
+
+    <section class="content-list">
+      <GhAnalyticsChart @members={{members}} />
+    </section>
+</section>
+
+{{outlet}}
