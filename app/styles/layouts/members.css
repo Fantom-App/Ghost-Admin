@@ -163,6 +163,12 @@ p.gh-members-list-email {
     
 }
 
+.gh-analytics-chart-container {
+    height: 300px;
+    margin: 0;
+    padding: 4px 7px 11px 2px;
+}
+
 /* .members-header .gh-member */
 
 @media (max-width: 1100px) {

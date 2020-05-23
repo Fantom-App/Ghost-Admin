@@ -64,6 +64,8 @@ Router.map(function () {
     this.route('member.new', {path: '/members/new'});
     this.route('member', {path: '/members/:member_id'});
 
+    this.route('analytics');
+
     this.route('error404', {path: '/*path'});
 });
 
