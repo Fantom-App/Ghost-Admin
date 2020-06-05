@@ -35,7 +35,6 @@
             </li>
         </ul>
         <ul class="gh-nav-list gh-nav-manage">
-            <li class="gh-nav-list-h">Manage</li>
             <li class="gh-nav-list-new relative">
                 <GhLinkToCustomViewsIndex @route="posts" @query={{reset-query-params "posts"}} data-test-nav="posts">{{svg-jar "posts"}}Posts</GhLinkToCustomViewsIndex>
                 <LinkTo @route="editor.new" @model="post" @classNames="gh-secondary-action gh-nav-new-post" @alt="New post" @title="New post" data-test-nav="new-story"><span>{{svg-jar "add-stroke"}}</span></LinkTo>
@@ -83,10 +82,11 @@
             <li><LinkTo @route="analytics" data-test-nav="analytics">{{svg-jar "analytics"}}Analytics</LinkTo></li>
             <li><LinkTo @route="staff" data-test-nav="staff">{{svg-jar "staff"}}Staff</LinkTo></li>
         </ul>
-        {{#if (gh-user-can-admin this.session.user)}}
-            <ul class="gh-nav-list gh-nav-settings">
-                <li class="gh-nav-list-h">Settings</li>
-                <li><LinkTo @route="settings.general" data-test-nav="settings">{{svg-jar "settings"}}General</LinkTo></li>
+
+        <ul class="gh-nav-list gh-nav-settings">
+            <li class="gh-nav-list-h">Settings</li>
+            <li><LinkTo @route="settings.general" data-test-nav="settings">{{svg-jar "settings"}}General</LinkTo></li>
+            {{#if (gh-user-can-admin this.session.user)}}
                 <li><LinkTo @route="settings.design" data-test-nav="design">{{svg-jar "paintbrush"}}Design</LinkTo></li>
                 <li><LinkTo @route="settings.code-injection" data-test-nav="code-injection">{{svg-jar "brackets"}}Code injection</LinkTo></li>
                 <li><LinkTo @route="settings.integrations" @current-when={{this.isIntegrationRoute}} data-test-nav="integrations">{{svg-jar "modules"}}Integrations</LinkTo></li>
@@ -96,18 +96,18 @@
                     </button>
                     <LinkTo @route="settings.labs" data-test-nav="labs">{{svg-jar "labs"}}Labs</LinkTo>
                 </li>
-                {{#if this.showBilling}}
-                    <li class="relative">
-                        <a href="javascript:void(0)" {{action "toggleBillingModal"}} data-test-nav="billing">
-                            {{svg-jar "house"}} View billing
-                        </a>
-                    </li>
-                    <li class="relative gh-nav-pro">
-                        <GhBillingUpdateButton />
-                    </li>
-                {{/if}}
-            </ul>
-        {{/if}}
+            {{/if}}
+            {{#if this.showBilling}}
+                <li class="relative">
+                    <a href="javascript:void(0)" {{action "toggleBillingModal"}} data-test-nav="billing">
+                        {{svg-jar "house"}} View billing
+                    </a>
+                </li>
+                <li class="relative gh-nav-pro">
+                    <GhBillingUpdateButton />
+                </li>
+            {{/if}}
+        </ul>
 
         {{#if this.showMenuExtension}}
             <ul class="gh-nav-list gh-nav-settings">
@@ -145,43 +145,10 @@
             <dropdown.Content class="gh-nav-menu-dropdown">
                 <ul class="dropdown-menu dropdown-triangle-top" role="menu" {{action dropdown.actions.close on="click" preventDefault=false}}>
                     <li role="presentation">
-                        <LinkTo @route="about" @classNames="dropdown-item" @role="menuitem" @tabindex="-1" data-test-nav="about">
-                            {{svg-jar "store"}} About Ghost
-                        </LinkTo>
-                    </li>
-                    <li role="presentation">
-                        <button class="dropdown-item" role="menuitem" tabindex="-1" {{on "click" this.whatsNew.showModal}}>
-                            {{svg-jar "gift"}} What's new?
-                            {{#if this.whatsNew.hasNew}}
-                                <div class="flex-grow-1 flex justify-end"><span class="dib w2 h2 top-0 right-0 bg-blue br-100"></span></div>
-                            {{/if}}
-                        </button>
-                    </li>
-                    <li class="divider"></li>
-                    <li role="presentation">
                         <LinkTo @route="staff.user" @model={{this.session.user.slug}} @classNames="dropdown-item" @role="menuitem" @tabindex="-1" data-test-nav="user-profile">
                             {{svg-jar "user-circle"}} Your Profile
                         </LinkTo>
                     </li>
-                    <li role="presentation">
-                        <a class="dropdown-item" role="menuitem" tabindex="-1" href="https://ghost.org/docs/" target="_blank">
-                            {{svg-jar "ambulance"}} Support Center
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a class="dropdown-item" role="menuitem" tabindex="-1" target="_blank"
-                            href="https://twitter.com/intent/tweet?text=%40Ghost+Hi%21+Can+you+help+me+with+&related=Ghost"
-                            onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;"
-                        >
-                            {{svg-jar "twitter"}} Tweet @Ghost!
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a class="dropdown-item" role="menuitem" tabindex="-1" href="https://ghost.org/faq/using-ghost/" target="_blank">
-                            {{svg-jar "book-open"}} How to Use Ghost
-                        </a>
-                    </li>
-                    <li class="divider"></li>
 
                     {{#if this.showDropdownExtension}}
                         {{#each this.config.clientExtensions.dropdown.items as |menuItem| }}
