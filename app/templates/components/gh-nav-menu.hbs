@@ -81,12 +81,12 @@
             {{/if}}
             <li><LinkTo @route="analytics" data-test-nav="analytics">{{svg-jar "analytics"}}Analytics</LinkTo></li>
             <li><LinkTo @route="staff" data-test-nav="staff">{{svg-jar "staff"}}Staff</LinkTo></li>
+            <li><LinkTo @route="settings.general" data-test-nav="settings">{{svg-jar "settings"}}Settings</LinkTo></li>
         </ul>
 
-        <ul class="gh-nav-list gh-nav-settings">
-            <li class="gh-nav-list-h">Settings</li>
-            <li><LinkTo @route="settings.general" data-test-nav="settings">{{svg-jar "settings"}}General</LinkTo></li>
-            {{#if (gh-user-can-admin this.session.user)}}
+        {{#if (gh-user-is-owner this.session.user)}}
+            <ul class="gh-nav-list gh-nav-settings">
+                <li class="gh-nav-list-h">Admin Settings</li>
                 <li><LinkTo @route="settings.design" data-test-nav="design">{{svg-jar "paintbrush"}}Design</LinkTo></li>
                 <li><LinkTo @route="settings.code-injection" data-test-nav="code-injection">{{svg-jar "brackets"}}Code injection</LinkTo></li>
                 <li><LinkTo @route="settings.integrations" @current-when={{this.isIntegrationRoute}} data-test-nav="integrations">{{svg-jar "modules"}}Integrations</LinkTo></li>
@@ -96,18 +96,18 @@
                     </button>
                     <LinkTo @route="settings.labs" data-test-nav="labs">{{svg-jar "labs"}}Labs</LinkTo>
                 </li>
-            {{/if}}
-            {{#if this.showBilling}}
-                <li class="relative">
-                    <a href="javascript:void(0)" {{action "toggleBillingModal"}} data-test-nav="billing">
-                        {{svg-jar "house"}} View billing
-                    </a>
-                </li>
-                <li class="relative gh-nav-pro">
-                    <GhBillingUpdateButton />
-                </li>
-            {{/if}}
-        </ul>
+                {{#if this.showBilling}}
+                    <li class="relative">
+                        <a href="javascript:void(0)" {{action "toggleBillingModal"}} data-test-nav="billing">
+                            {{svg-jar "house"}} View billing
+                        </a>
+                    </li>
+                    <li class="relative gh-nav-pro">
+                        <GhBillingUpdateButton />
+                    </li>
+                {{/if}}
+            </ul>
+        {{/if}}
 
         {{#if this.showMenuExtension}}
             <ul class="gh-nav-list gh-nav-settings">
