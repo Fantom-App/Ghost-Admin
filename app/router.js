@@ -40,6 +40,14 @@ Router.map(function () {
     this.route('tag.new', {path: '/tags/new'});
     this.route('tag', {path: '/tags/:tag_slug'});
 
+    this.route('series');
+    this.route('serieseach.new', {path: '/series/new'});
+    this.route('serieseach', {path: '/series/:tag_slug'});
+
+    this.route('collections');
+    this.route('collection.new', {path: '/collection/new'});
+    this.route('collection', {path: '/collection/:tag_slug'});
+
     this.route('settings.general', {path: '/settings/general'});
     this.route('settings.labs', {path: '/settings/labs'});
     this.route('settings.code-injection', {path: '/settings/code-injection'});

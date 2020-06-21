@@ -12,25 +12,31 @@ export default Component.extend({
     tagName: '',
 
     // internal attrs
-    _availableTags: null,
+    _availableSeries: null,
+    _post: null,
 
-    availableTags: sort('_availableTags.[]', function (tagA, tagB) {
+    availableSeries: sort('_availableSeries.[]', function (tagA, tagB) {
         // ignorePunctuation means the # in internal tag names is ignored
         return tagA.name.localeCompare(tagB.name, undefined, {ignorePunctuation: true});
     }),
 
-    availableTagNames: computed('availableTags.@each.name', function () {
-        return this.availableTags.map(tag => tag.name.toLowerCase());
+    availableTagNames: computed('availableSeries.@each.name', function () {
+        return this.availableSeries.map(tag => tag.name.toLowerCase());
     }),
 
     init() {
         this._super(...arguments);
-        // perform a background query to fetch all users and set `availableTags`
+        // perform a background query to fetch all users and set `availableSeries`
         // to a live-query that will be immediately populated with what's in the
         // store and be updated when the above query returns
-        this.store.query('tag', {limit: 'all'});
-        this.set('_availableTags', this.store.peekAll('tag').filterBy('type', 'collection'));
-        this.set('selectedCollection', this.post.tags.filterBy('type', 'collection'));
+        this.store.query('tag', {limit: 'all'}, {
+            filter: {
+                type: 'series'
+            }
+        });
+        // this.set('_availableSeries', this.store.peekAll('tag'));
+        this.set('_availableSeries', this.store.peekAll('tag').filterBy('type', 'series'));
+        this.set('selectedSeries', this.post.tags.filterBy('type', 'series'));
     },
 
     actions: {
@@ -52,12 +58,12 @@ export default Component.extend({
                 }
             });
 
-            let missingTags = this.get('post.tags').filterBy('type', 'series');
+            let missingTags = this.get('post.tags').filterBy('type', 'collection');
             let allTags = missingTags.concat(newTags);
 
             // update tags
             this.set('post.tags', allTags);
-            return this.set('selectedCollection', this.post.tags.filterBy('type', 'collection'));
+            return this.set('selectedSeries', this.post.tags.filterBy('type', 'series'));
         },
 
         createTag(tagName) {
@@ -79,7 +85,7 @@ export default Component.extend({
             if (!tagToAdd) {
                 tagToAdd = this.store.createRecord('tag', {
                     name: tagName,
-                    type: 'collection'
+                    type: 'series'
                 });
 
                 // set to public/internal based on the tag name
@@ -97,6 +103,6 @@ export default Component.extend({
         let withMatchingName = function (tag) {
             return tag.name.toLowerCase() === name.toLowerCase();
         };
-        return this.availableTags.find(withMatchingName).filterBy('type', 'collection');
+        return this.availableSeries.find(withMatchingName).filterBy('type', 'series');
     }
 });

@@ -7,6 +7,9 @@ export default Model.extend(ValidationEngine, {
     validationType: 'tag',
 
     name: attr('string'),
+    type: attr('string'),
+    featured: attr('boolean', {defaultValue: false}),
+    featuredDescription: attr('string'),
     slug: attr('string'),
     description: attr('string'),
     parent: attr('string'), // unused

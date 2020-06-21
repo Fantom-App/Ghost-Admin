@@ -4,9 +4,9 @@
     }}
     @onChange={{action "updateTags"}}
     @onCreate={{action "createTag"}}
-    @options={{this.availableTags}}
+    @options={{this.availableSeries}}
     @renderInPlace={{true}}
-    @selected={{this.selectedCollection}}
+    @selected={{this.selectedSeries}}
     @showCreateWhen={{action "hideCreateOptionOnMatchingTag"}}
     @triggerId={{this.triggerId}}
 />
