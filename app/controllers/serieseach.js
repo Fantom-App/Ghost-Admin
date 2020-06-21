@@ -87,7 +87,7 @@ export default Controller.extend({
             yield tag.save();
 
             // replace 'new' route with 'tag' route
-            this.replaceRoute('series', tag);
+            this.replaceRoute('serieseach', tag);
 
             return tag;
         } catch (error) {
