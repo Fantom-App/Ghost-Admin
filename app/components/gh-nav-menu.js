@@ -93,6 +93,7 @@ export default Component.extend(ShortcutsMixin, {
 
         style.right += (dropdownWidth - 20);
         style['z-index'] = 1100;
+        style.top += 169;
 
         return {horizontalPosition, verticalPosition, style};
     },
