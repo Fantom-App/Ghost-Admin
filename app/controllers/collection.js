@@ -34,7 +34,7 @@ export default Controller.extend({
 
         deleteTag() {
             return this.tag.destroyRecord().then(() => {
-                return this.transitionToRoute('tags');
+                return this.transitionToRoute('collections');
             }, (error) => {
                 return this.notifications.showAPIError(error, {key: 'tag.delete'});
             });
