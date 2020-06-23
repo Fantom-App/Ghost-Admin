@@ -10,10 +10,6 @@
                 @tabindex="1"
                 @focus-out={{action "setProperty" "name" this.scratchTag.name}}
             />
-            <p class="description">
-                Start with # to create internal tags
-                <a href="https://ghost.org/docs/concepts/tags/#internal-tag" target="_blank" rel="noreferrer">Learn more</a>
-            </p>
             <GhErrorMessage @errors={{this.tag.errors}} @property="name" />
         </GhFormGroup>
 
@@ -26,7 +22,11 @@
                 @tabindex="2"
                 @focus-out={{action "setProperty" "slug" this.scratchTag.slug}}
             />
-            <GhUrlPreview @prefix="tag" @slug={{this.scratchTag.slug}} @tagName="p" @classNames="description" />
+            {{#if (eq this.tag.type "series")}}
+                <GhUrlPreview @prefix="series" @slug={{this.scratchTag.slug}} @tagName="p" @classNames="description" />
+            {{else}}
+                <GhUrlPreview @prefix="collection" @slug={{this.scratchTag.slug}} @tagName="p" @classNames="description" />
+            {{/if}}
             <GhErrorMessage @errors={{this.activeTag.errors}} @property="slug" />
         </GhFormGroup>
 
@@ -43,30 +43,57 @@
             <GhErrorMessage @errors={{this.tag.errors}} @property="description" />
             <p>Maximum: <b>500</b> characters. You’ve used {{gh-count-down-characters this.scratchTag.description 500}}</p>
         </GhFormGroup>
+        {{#if (eq this.tag.type "series")}}
+            <GhFormGroup>
+                <label for="tag-description">Featured</label>
+                <div class="for-switch">
+                    <label class="switch" for="featured-checkbox">
+                        <Input @checked={{this.tag.featured}} @type="checkbox" @id="featured-checkbox"
+                            @name="featured" />
+                        <span class="input-toggle-component"></span>
+                    </label>
+                </div>
+                <p>Set this series as featured.</p>
+            </GhFormGroup>
 
-        <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="featured_description">
-            <label for="tag-description">Featured Description</label>
-            <GhTextarea
-                @id="featured_description"
-                @name="featured_description"
-                @class="gh-tag-details-textarea"
-                @tabindex="3"
-                @value={{this.scratchTag.featured_description}}
-                @focus-out={{action "setProperty" "description" this.scratchTag.featured_description}}
+            <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="featuredDescription">
+                <label for="tag-description">Featured Headline</label>
+                <GhTextInput
+                    @id="featured_description"
+                    @name="featured_description"
+                    @tabindex="4"
+                    @value={{this.scratchTag.featuredDescription}}
+                    @focus-out={{action "setProperty" "featuredDescription" this.scratchTag.featuredDescription}}
+                />
+                <GhErrorMessage @errors={{this.tag.errors}} @property="featured_description" />
+                <p>Headline is displayed on series card when this series is featured.</p>
+            </GhFormGroup>
+        {{/if}}
+
+    </div>
+    {{#if (eq this.tag.type "series")}}
+        <div class="order-0 mb6 mb0-ns order-2-ns w-100 w-50-m w-third-l">
+            <label for="tag-image">Series image</label>
+            <GhImageUploaderWithPreview
+                @image={{this.tag.featureImage}}
+                @text="Upload series image"
+                @class="gh-tag-image-uploader"
+                @allowUnsplash={{true}}
+                @update={{action "setCoverImage"}}
+                @remove={{action "clearCoverImage"}}
             />
-            <GhErrorMessage @errors={{this.tag.errors}} @property="featured_description" />
-            <p>Maximum: <b>500</b> characters. You’ve used {{gh-count-down-characters this.scratchTag.featured_description 500}}</p>
-        </GhFormGroup>
-    </div>
-    <div class="order-0 mb6 mb0-ns order-2-ns w-100 w-50-m w-third-l">
-        <label for="tag-image">Tag image</label>
-        <GhImageUploaderWithPreview
-            @image={{this.tag.featureImage}}
-            @text="Upload tag image"
-            @class="gh-tag-image-uploader"
-            @allowUnsplash={{true}}
-            @update={{action "setCoverImage"}}
-            @remove={{action "clearCoverImage"}}
-        />
-    </div>
+        </div>
+    {{else}}
+        <div class="order-0 mb6 mb0-ns order-2-ns w-100 w-50-m w-third-l">
+            <label for="tag-image">Collection image</label>
+            <GhImageUploaderWithPreview
+                @image={{this.tag.featureImage}}
+                @text="Upload collection image"
+                @class="gh-tag-image-uploader"
+                @allowUnsplash={{true}}
+                @update={{action "setCoverImage"}}
+                @remove={{action "clearCoverImage"}}
+            />
+        </div>
+    {{/if}}    
 </div>
