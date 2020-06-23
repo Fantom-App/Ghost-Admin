@@ -7,7 +7,7 @@ import {inject as service} from '@ember/service';
 import {slugify} from '@tryghost/string';
 import {task, timeout} from 'ember-concurrency';
 
-const SCRATCH_PROPS = ['name', 'slug', 'description', 'metaTitle', 'metaDescription'];
+const SCRATCH_PROPS = ['name', 'slug', 'description', 'metaTitle', 'metaDescription', 'featuredDescription'];
 
 export default Controller.extend({
     notifications: service(),
@@ -34,7 +34,7 @@ export default Controller.extend({
 
         deleteTag() {
             return this.tag.destroyRecord().then(() => {
-                return this.transitionToRoute('tags');
+                return this.transitionToRoute('series');
             }, (error) => {
                 return this.notifications.showAPIError(error, {key: 'tag.delete'});
             });
