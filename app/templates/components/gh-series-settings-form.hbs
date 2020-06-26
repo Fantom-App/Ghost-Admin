@@ -1,0 +1,98 @@
+<h4 class="midlightgrey f-small fw5 ttu">Basic settings</h4>
+<div class="pa5 pt4 br4 shadow-1 bg-grouped-table mt2 flex flex-column flex-row-ns items-start justify-between gh-tag-basic-settings-form">
+    <div class="order-1 flex flex-column items-start mr5 w-100 w-50-m w-two-thirds-l">
+        <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="name">
+            <label for="tag-name">Name</label>
+            <GhTextInput
+                @id="tag-name"
+                @name="name"
+                @value={{this.scratchTag.name}}
+                @tabindex="1"
+                @focus-out={{action "setProperty" "name" this.scratchTag.name}}
+            />
+            <GhErrorMessage @errors={{this.tag.errors}} @property="name" />
+        </GhFormGroup>
+
+        <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="slug">
+            <label for="tag-slug">Slug</label>
+            <GhTextInput
+                @value={{this.scratchTag.slug}}
+                @id="tag-slug"
+                @name="slug"
+                @tabindex="2"
+                @focus-out={{action "setProperty" "slug" this.scratchTag.slug}}
+            />
+            {{#if (eq this.tag.type "series")}}
+                <GhUrlPreview @prefix="series" @slug={{this.scratchTag.slug}} @tagName="p" @classNames="description" />
+            {{else}}
+                <GhUrlPreview @prefix="collection" @slug={{this.scratchTag.slug}} @tagName="p" @classNames="description" />
+            {{/if}}
+            <GhErrorMessage @errors={{this.activeTag.errors}} @property="slug" />
+        </GhFormGroup>
+
+        <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="description">
+            <label for="tag-description">Description</label>
+            <GhTextarea
+                @id="tag-description"
+                @name="description"
+                @class="gh-tag-details-textarea"
+                @tabindex="3"
+                @value={{this.scratchTag.description}}
+                @focus-out={{action "setProperty" "description" this.scratchTag.description}}
+            />
+            <GhErrorMessage @errors={{this.tag.errors}} @property="description" />
+            <p>Maximum: <b>500</b> characters. You’ve used {{gh-count-down-characters this.scratchTag.description 500}}</p>
+        </GhFormGroup>
+        
+        <GhFormGroup>
+            <label for="tag-description">Featured</label>
+            <div class="for-switch">
+                <label class="switch" for="featured-checkbox">
+                    <Input @checked={{this.tag.featured}} @type="checkbox" @id="featured-checkbox"
+                        @name="featured" />
+                    <span class="input-toggle-component"></span>
+                </label>
+            </div>
+            <p>Set this series as featured.</p>
+        </GhFormGroup>
+
+        <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="featuredDescription">
+            <label for="tag-description">Featured Headline</label>
+            <GhTextInput
+                @id="featured_description"
+                @name="featured_description"
+                @tabindex="4"
+                @value={{this.scratchTag.featuredDescription}}
+                @focus-out={{action "setProperty" "featuredDescription" this.scratchTag.featuredDescription}}
+            />
+            <GhErrorMessage @errors={{this.tag.errors}} @property="featured_description" />
+            <p>Headline is displayed on series card when this series is featured.</p>
+        </GhFormGroup>
+
+    </div>
+    {{#if (eq this.tag.type "series")}}
+        <div class="order-0 mb6 mb0-ns order-2-ns w-100 w-50-m w-third-l">
+            <label for="tag-image">Series image</label>
+            <GhImageUploaderWithPreview
+                @image={{this.tag.featureImage}}
+                @text="Upload series image"
+                @class="gh-tag-image-uploader"
+                @allowUnsplash={{true}}
+                @update={{action "setCoverImage"}}
+                @remove={{action "clearCoverImage"}}
+            />
+        </div>
+    {{else}}
+        <div class="order-0 mb6 mb0-ns order-2-ns w-100 w-50-m w-third-l">
+            <label for="tag-image">Collection image</label>
+            <GhImageUploaderWithPreview
+                @image={{this.tag.featureImage}}
+                @text="Upload collection image"
+                @class="gh-tag-image-uploader"
+                @allowUnsplash={{true}}
+                @update={{action "setCoverImage"}}
+                @remove={{action "clearCoverImage"}}
+            />
+        </div>
+    {{/if}}    
+</div>
