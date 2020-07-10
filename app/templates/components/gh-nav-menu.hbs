@@ -64,11 +64,13 @@
                 {{/if}}
             </li>
             <li>
-                {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
-                {{#if (eq this.router.currentRouteName "pages")}}
-                    <LinkTo @route="pages" @query={{hash type=null author=null tag=null order=null}} @classNames="active" data-test-nav="pages">{{svg-jar "page"}}Pages</LinkTo>
-                {{else}}
-                    <LinkTo @route="pages" data-test-nav="pages">{{svg-jar "page"}}Pages</LinkTo>
+                {{#if (gh-user-is-owner this.session.user)}}
+                    {{!-- clicking the Content link whilst on the content screen should reset the filter --}}
+                    {{#if (eq this.router.currentRouteName "pages")}}
+                        <LinkTo @route="pages" @query={{hash type=null author=null tag=null order=null}} @classNames="active" data-test-nav="pages">{{svg-jar "page"}}Pages</LinkTo>
+                    {{else}}
+                        <LinkTo @route="pages" data-test-nav="pages">{{svg-jar "page"}}Pages</LinkTo>
+                    {{/if}}
                 {{/if}}
             </li>
             {{#if (gh-user-can-admin this.session.user)}}
@@ -82,7 +84,9 @@
                 </li>
             {{/if}}
             {{!-- <li><LinkTo @route="analytics" data-test-nav="analytics">{{svg-jar "analytics"}}Analytics</LinkTo></li> --}}
-            <li><LinkTo @route="staff" data-test-nav="staff">{{svg-jar "staff"}}Staff</LinkTo></li>
+            {{#if (gh-user-is-owner this.session.user)}}
+                <li><LinkTo @route="staff" data-test-nav="staff">{{svg-jar "staff"}}Staff</LinkTo></li>
+            {{/if}}
             <li><LinkTo @route="settings.general" data-test-nav="settings">{{svg-jar "settings"}}Settings</LinkTo></li>
         </ul>
 
