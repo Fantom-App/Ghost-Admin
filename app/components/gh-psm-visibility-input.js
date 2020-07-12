@@ -4,8 +4,8 @@ import {inject as service} from '@ember/service';
 
 const VISIBILITIES = [
     {label: 'Public', name: 'public'},
-    {label: 'Members only', name: 'members'},
-    {label: 'Paid-members only', name: 'paid'}
+    {label: 'Platinum Penguinns', name: 'members'},
+    {label: 'Platinum Penguinns PLUS', name: 'paid'}
 ];
 
 export default Component.extend({

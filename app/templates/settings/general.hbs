@@ -223,6 +223,7 @@
             </div>
         </div>
 
+        {{#if (gh-user-is-owner this.session.user)}}
         <div class="gh-setting-header">Site meta settings</div>
         <div class="flex flex-column br3 shadow-1 bg-grouped-table pa5">
             <div class="gh-setting-first flex-column">
@@ -418,6 +419,7 @@
                     {{/liquid-if}}
             </div>
         </div>
+        {{/if}}
 
         <div class="gh-setting-header">Social accounts</div>
         <div class="flex flex-column br3 shadow-1 bg-grouped-table pa5">
@@ -458,56 +460,6 @@
                 </div>
                 <div class="gh-setting-action">
                     <button type="button" class="gh-btn" {{action (toggle "socialOpen" this)}} data-test-toggle-social><span>{{if this.socialOpen "Close" "Expand"}}</span></button>
-                </div>
-            </div>
-        </div>
-
-        <div class="gh-setting-header">Advanced settings</div>
-        <div class="flex flex-column br3 shadow-1 bg-grouped-table pa5">
-            <div class="gh-setting-first gh-setting-last">
-                <div class="gh-setting-content">
-                    <div class="gh-setting-title">Make this site private</div>
-                    <div class="gh-setting-desc">
-                        Enable protection with simple shared password. All search engine optimization and social features will be disabled.
-
-                        {{#if this.settings.isPrivate}}
-                            <span class="avoid-break-out">
-                                <br><br>
-                                A private RSS feed is available at
-                                <a href="{{this.privateRSSUrl}}" target="_blank" rel="noopener">{{this.privateRSSUrl}}</a>
-                            </span>
-                        {{/if}}
-                    </div>
-
-                    {{#if this.settings.isPrivate}}
-                        <div class="gh-setting-content-extended">
-                            <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="password">
-                                <GhTextInput
-                                    @value={{readonly this.settings.password}}
-                                    @name="general[password]"
-                                    @focus-out={{action "validate" "password" target=this.settings}}
-                                    @input={{action (mut this.settings.password) value="target.value"}}
-                                    data-test-password-input={{true}}
-                                />
-                                <GhErrorMessage @errors={{this.settings.errors}} @property="password" data-test-password-error=true />
-                                <p>Set the password for this site</p>
-                            </GhFormGroup>
-                        </div>
-                    {{/if}}
-                </div>
-                <div class="gh-setting-action">
-                    <div class="for-switch">
-                        <label class="switch" for="settings-private">
-                            <input
-                                type="checkbox"
-                                checked={{this.settings.isPrivate}}
-                                id="settings-private"
-                                onclick={{action "toggleIsPrivate" value="target.checked"}}
-                                data-test-private-checkbox
-                            >
-                            <span class="input-toggle-component"></span>
-                        </label>
-                    </div>
                 </div>
             </div>
         </div>
