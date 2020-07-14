@@ -12,8 +12,9 @@ export default Component.extend({
     classNames: 'ghost-url-preview',
     prefix: null,
     slug: null,
+    visibility: null,
 
-    url: computed('slug', function () {
+    url: computed('slug', 'prefix', 'visibility', function () {
         // Get the blog URL and strip the scheme
         let staticSiteUrl = this.get('config.staticSiteUrl');
         // Remove `http[s]://`
@@ -22,9 +23,10 @@ export default Component.extend({
         // Get the prefix and slug values
         let prefix = this.prefix ? `${this.prefix}/` : '';
         let slug = this.slug ? `${this.slug}/` : '';
+        let isPublic = this.visibility === 'public' ? 'public/' : '';
 
         // Join parts of the URL together with slashes
-        let theUrl = `${noSchemestaticSiteUrl}/${prefix}${slug}`;
+        let theUrl = `${noSchemestaticSiteUrl}/${isPublic}${prefix}${slug}`;
 
         return theUrl;
     })

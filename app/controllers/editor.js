@@ -807,19 +807,19 @@ export default Controller.extend({
             description = 'May take up to two minutes for content to go live everywhere.';
         }
         let notifications = this.notifications;
-        let actions, type, path;
+        // let actions, type, path;
 
-        if (status === 'published' || status === 'scheduled') {
-            type = this.get('post.page') ? 'Page' : 'Post';
-            path = this.get('post.url');
-            actions = `<a href="${path}" target="_blank">View ${type}</a>`;
-        } else {
-            type = 'Preview';
-            path = this.get('post.previewUrl');
-            actions = `<a href="${path}" target="_blank">View ${type}</a>`;
-        }
+        // if (status === 'published' || status === 'scheduled') {
+        //     type = this.get('post.page') ? 'Page' : 'Post';
+        //     path = this.get('post.url');
+        //     actions = `<a href="${path}" target="_blank">View ${type}</a>`;
+        // } else {
+        //     type = 'Preview';
+        //     path = this.get('post.previewUrl');
+        //     actions = `<a href="${path}" target="_blank">View ${type}</a>`;
+        // }
 
-        notifications.showNotification(message, {description, type: 'success', actions: actions.htmlSafe(), delayed: delay});
+        notifications.showNotification(message, {description, type: 'success', /* actions: actions.htmlSafe(),*/  delayed: delay});
     },
 
     _showErrorAlert(prevStatus, status, error, delay) {

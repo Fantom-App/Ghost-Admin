@@ -53,6 +53,17 @@ export default Component.extend(SettingsMenuMixin, {
         return this.metaTitleScratch || this.post.titleScratch || '(Untitled)';
     }),
 
+    liveUrl: computed('post.slug', 'post.contentType', 'post.visibility', function () {
+        let staticSiteUrl = this.get('config.staticSiteUrl');
+
+        let isPublic = this.post.visibility === 'public' ? 'public/' : '';
+
+        // Join parts of the URL together with slashes
+        let theUrl = `${staticSiteUrl}/${isPublic}${this.post.contentType}/${this.post.slug}`;
+
+        return theUrl;
+    }),
+
     seoDescription: computed('post.scratch', 'metaDescriptionScratch', function () {
         let metaDescription = this.metaDescriptionScratch || '';
         let mobiledoc = this.get('post.scratch');
