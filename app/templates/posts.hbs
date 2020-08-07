@@ -37,6 +37,7 @@
             {{#each this.postsInfinityModel as |post|}}
                 <GhPostsListItem
                     @post={{post}}
+                    @type='posts'
                     data-test-post-id={{post.id}} />
             {{else}}
             <li class="no-posts-box">

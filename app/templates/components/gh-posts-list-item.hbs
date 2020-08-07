@@ -23,13 +23,15 @@
     </p>
 </LinkTo>
 
-<LinkTo @route="editor.edit" @models={{array this.post.displayName this.post.id}} class="permalink gh-list-data gh-post-list-status" @title="Edit this post">
-        {{#if (eq this.post.contentType "")}}
-        <span class="gh-content-status-published nowrap">Blog</span>
-        {{else}}
-        <span class="gh-content-status-published nowrap">{{this.post.contentType}}</span>
-        {{/if}}
-</LinkTo>
+{{#if this.type}}
+    <LinkTo @route="editor.edit" @models={{array this.post.displayName this.post.id}} class="permalink gh-list-data gh-post-list-status" @title="Edit this post">
+            {{#if (eq this.post.contentType "")}}
+            <span class="gh-content-status-published nowrap">Blog</span>
+            {{else}}
+            <span class="gh-content-status-published nowrap">{{this.post.contentType}}</span>
+            {{/if}}
+    </LinkTo>
+{{/if}}
 
 <LinkTo @route="editor.edit" @models={{array this.post.displayName this.post.id}} class="permalink gh-list-data gh-post-list-status" @title="Edit this post">
     <div class="flex items-center">
