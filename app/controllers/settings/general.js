@@ -37,6 +37,9 @@ export default Controller.extend({
     imageMimeTypes: IMAGE_MIME_TYPES,
     _scratchFacebook: null,
     _scratchTwitter: null,
+    _scratchYoutube: null,
+    _scratchTwitch: null,
+    _scratchInstagram: null,
 
     init() {
         this._super(...arguments);
@@ -271,6 +274,172 @@ export default Controller.extend({
                 return;
             }
         },
+
+        validateYoutubeUrl() {
+            let newUrl = this._scratchYoutube;
+            let oldUrl = this.get('settings.youtube');
+            let errMessage = '';
+
+            // reset errors and validation
+            this.get('settings.errors').remove('youtube');
+            this.get('settings.hasValidated').removeObject('youtube');
+
+            if (newUrl === '') {
+                // Clear out the Youtube url
+                this.set('settings.youtube', '');
+                return;
+            }
+
+            // _scratchYoutube will be null unless the user has input something
+            if (!newUrl) {
+                newUrl = oldUrl;
+            }
+
+            if (newUrl.match(/(?:youtube\.com\user\/)(\S+)/) || newUrl.match(/([a-z\d.]+)/i)) {
+                let username = [];
+
+                if (newUrl.match(/(?:youtube\.com\user\/)(\S+)/)) {
+                    [, username] = newUrl.match(/(?:youtube\.com\user\/)(\S+)/);
+                } else {
+                    [username] = newUrl.match(/([^/]+)\/?$/mi);
+                }
+
+                // check if username starts with http or www and show error if so
+                if (username.match(/^(http|www)|(\/)/) || !username.match(/^[a-z\d._]{1,15}$/mi)) {
+                    errMessage = !username.match(/^[a-z\d._]{1,15}$/mi) ? 'Your Username is not a valid Youtube Username' : 'The URL must be in a format like https://youtube.com/user/yourUsername';
+
+                    this.get('settings.errors').add('youtube', errMessage);
+                    this.get('settings.hasValidated').pushObject('youtube');
+                    return;
+                }
+
+                newUrl = `https://youtube.com/user/${username}`;
+
+                this.get('settings.hasValidated').pushObject('youtube');
+
+                this.set('settings.youtube', '');
+                run.schedule('afterRender', this, function () {
+                    this.set('settings.youtube', newUrl);
+                });
+            } else {
+                errMessage = 'The URL must be in a format like '
+                           + 'https://youtube.com/user/yourUsername';
+                this.get('settings.errors').add('youtube', errMessage);
+                this.get('settings.hasValidated').pushObject('youtube');
+                return;
+            }
+        },
+
+        validateTwitchUrl() {
+            let newUrl = this._scratchTwitch;
+            let oldUrl = this.get('settings.twitch');
+            let errMessage = '';
+
+            // reset errors and validation
+            this.get('settings.errors').remove('twitch');
+            this.get('settings.hasValidated').removeObject('twitch');
+
+            if (newUrl === '') {
+                // Clear out the twitch url
+                this.set('settings.twitch', '');
+                return;
+            }
+
+            // _scratchTwitch will be null unless the user has input something
+            if (!newUrl) {
+                newUrl = oldUrl;
+            }
+
+            if (newUrl.match(/(?:twitch\.tv\/)(\S+)/) || newUrl.match(/([a-z\d.]+)/i)) {
+                let username = [];
+
+                if (newUrl.match(/(?:twitch\.tv\/)(\S+)/)) {
+                    [, username] = newUrl.match(/(?:twitch\.tv\/)(\S+)/);
+                } else {
+                    [username] = newUrl.match(/([^/]+)\/?$/mi);
+                }
+
+                // check if username starts with http or www and show error if so
+                if (username.match(/^(http|www)|(\/)/) || !username.match(/^[a-z\d._]{1,15}$/mi)) {
+                    errMessage = !username.match(/^[a-z\d._]{1,15}$/mi) ? 'Your Username is not a valid Twitch Username' : 'The URL must be in a format like https://twitch.tv/yourUsername';
+
+                    this.get('settings.errors').add('twitch', errMessage);
+                    this.get('settings.hasValidated').pushObject('twitch');
+                    return;
+                }
+
+                newUrl = `https://twitch.tv/${username}`;
+
+                this.get('settings.hasValidated').pushObject('twitch');
+
+                this.set('settings.twitch', '');
+                run.schedule('afterRender', this, function () {
+                    this.set('settings.twitch', newUrl);
+                });
+            } else {
+                errMessage = 'The URL must be in a format like '
+                           + 'https://twitch.tv/yourUsername';
+                this.get('settings.errors').add('twitch', errMessage);
+                this.get('settings.hasValidated').pushObject('twitch');
+                return;
+            }
+        },
+
+        validateInstagramUrl() {
+            let newUrl = this._scratchInstagram;
+            let oldUrl = this.get('settings.instagram');
+            let errMessage = '';
+
+            // reset errors and validation
+            this.get('settings.errors').remove('instagram');
+            this.get('settings.hasValidated').removeObject('instagram');
+
+            if (newUrl === '') {
+                // Clear out the Instagram url
+                this.set('settings.instagram', '');
+                return;
+            }
+
+            // _scratchInstagram will be null unless the user has input something
+            if (!newUrl) {
+                newUrl = oldUrl;
+            }
+
+            if (newUrl.match(/(?:instagram\.com\/)(\S+)/) || newUrl.match(/([a-z\d.]+)/i)) {
+                let username = [];
+
+                if (newUrl.match(/(?:instagram\.com\/)(\S+)/)) {
+                    [, username] = newUrl.match(/(?:instagram\.com\/)(\S+)/);
+                } else {
+                    [username] = newUrl.match(/([^/]+)\/?$/mi);
+                }
+
+                // check if username starts with http or www and show error if so
+                if (username.match(/^(http|www)|(\/)/) || !username.match(/^[a-z\d._]{1,15}$/mi)) {
+                    errMessage = !username.match(/^[a-z\d._]{1,15}$/mi) ? 'Your Username is not a valid Instagram Username' : 'The URL must be in a format like https://instagram.com/yourUsername';
+
+                    this.get('settings.errors').add('instagram', errMessage);
+                    this.get('settings.hasValidated').pushObject('instagram');
+                    return;
+                }
+
+                newUrl = `https://instagram.com/${username}`;
+
+                this.get('settings.hasValidated').pushObject('instagram');
+
+                this.set('settings.instagram', '');
+                run.schedule('afterRender', this, function () {
+                    this.set('settings.instagram', newUrl);
+                });
+            } else {
+                errMessage = 'The URL must be in a format like '
+                           + 'https://instagram.com/yourUsername';
+                this.get('settings.errors').add('instagram', errMessage);
+                this.get('settings.hasValidated').pushObject('instagram');
+                return;
+            }
+        },
+
         validateBrandColor() {
             let newColor = this.get('brandColor');
             let oldColor = this.get('settings.brand.primaryColor');

@@ -432,7 +432,7 @@
                         <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="facebook">
                             <GhTextInput
                                 @type="url"
-                                @placeholder="https://www.facebook.com/ghost"
+                                @placeholder="https://www.facebook.com/trycereal"
                                 @autocorrect="off"
                                 @value={{readonly this.settings.facebook}}
                                 @input={{action (mut this._scratchFacebook) value="target.value"}}
@@ -445,7 +445,7 @@
                         <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="twitter">
                             <GhTextInput
                                 @type="url"
-                                @placeholder="https://twitter.com/ghost"
+                                @placeholder="https://twitter.com/trycereal"
                                 @autocorrect="off"
                                 @value={{readonly this.settings.twitter}}
                                 @input={{action (mut this._scratchTwitter) value="target.value"}}
@@ -454,6 +454,45 @@
                             />
                             <GhErrorMessage @errors={{this.settings.errors}} @property="twitter" data-test-twitter-error=true />
                             <p>URL of your publication's Twitter profile</p>
+                        </GhFormGroup>
+                        <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="youtube">
+                            <GhTextInput
+                                @type="url"
+                                @placeholder="https://youtube.com/user/trycereal"
+                                @autocorrect="off"
+                                @value={{readonly this.settings.youtube}}
+                                @input={{action (mut this._scratchYoutube) value="target.value"}}
+                                @focus-out={{action "validateYoutubeUrl"}}
+                                data-test-youtube-input={{true}}
+                            />
+                            <GhErrorMessage @errors={{this.settings.errors}} @property="youtube" data-test-youtube-error=true />
+                            <p>URL of your publication's YouTube Page</p>
+                        </GhFormGroup>
+                        <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="twitch">
+                            <GhTextInput
+                                @type="url"
+                                @placeholder="https://twitch.tv/trycereal"
+                                @autocorrect="off"
+                                @value={{readonly this.settings.twitch}}
+                                @input={{action (mut this._scratchTwitch) value="target.value"}}
+                                @focus-out={{action "validateTwitchUrl"}}
+                                data-test-twitch-input={{true}}
+                            />
+                            <GhErrorMessage @errors={{this.settings.errors}} @property="twitch" data-test-twitch-error=true />
+                            <p>URL of your publication's Twitch Page</p>
+                        </GhFormGroup>
+                        <GhFormGroup @errors={{this.settings.errors}} @hasValidated={{this.settings.hasValidated}} @property="instagram">
+                            <GhTextInput
+                                @type="url"
+                                @placeholder="https://instagram.tv/trycereal"
+                                @autocorrect="off"
+                                @value={{readonly this.settings.instagram}}
+                                @input={{action (mut this._scratchInstagram) value="target.value"}}
+                                @focus-out={{action "validateInstagramUrl"}}
+                                data-test-instagram-input={{true}}
+                            />
+                            <GhErrorMessage @errors={{this.settings.errors}} @property="instagram" data-test-instagram-error=true />
+                            <p>URL of your publication's Instagram Page</p>
                         </GhFormGroup>
                     </div>
                     {{/liquid-if}}
