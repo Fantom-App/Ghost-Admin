@@ -202,5 +202,35 @@ export default [
         updated_at: '2019-11-20T13:32:49.868Z',
         updated_by: 1,
         value: JSON.stringify([])
+    },
+    {
+        id: 26,
+        created_at: '2016-05-05T15:40:12.134Z',
+        created_by: 1,
+        key: 'youtube',
+        type: 'blog',
+        updated_at: '2016-05-08T15:20:25.954Z',
+        updated_by: 1,
+        value: 'test'
+    },
+    {
+        id: 27,
+        created_at: '2016-05-05T15:40:12.134Z',
+        created_by: 1,
+        key: 'twitch',
+        type: 'blog',
+        updated_at: '2016-05-08T15:20:25.954Z',
+        updated_by: 1,
+        value: 'test'
+    },
+    {
+        id: 28,
+        created_at: '2016-05-05T15:40:12.134Z',
+        created_by: 1,
+        key: 'instagram',
+        type: 'blog',
+        updated_at: '2016-05-08T15:20:25.954Z',
+        updated_by: 1,
+        value: 'test'
     }
 ];
