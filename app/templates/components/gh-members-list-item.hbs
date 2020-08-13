@@ -1,5 +1,5 @@
 <li class="gh-list-row gh-members-list-item" ...attributes>
-    <LinkTo @route="member" @model={{@member}} title="Member details" class="gh-list-data gh-members-list-basic">
+    <div title="Member details" class="gh-list-data gh-members-list-basic">
         <div class="flex items-center">
             <GhMemberAvatar @member={{@member}} @containerClass="w9 h9 mr3" />
             <div>
@@ -9,9 +9,9 @@
                 {{/if}}
             </div>
         </div>
-    </LinkTo>
+    </div>
 
-    <LinkTo @route="member" @model={{@member}} title="Member details" class="gh-list-data gh-members-list-geolocation gh-list-cellwidth-20 nowrap middarkgrey f8 {{if (not @member.name) "gh-members-geolocation-noname"}}">
+    <div title="Member details" class="gh-list-data gh-members-list-geolocation gh-list-cellwidth-20 nowrap middarkgrey f8 {{if (not @member.name) "gh-members-geolocation-noname"}}">
         {{#if @member.geolocation}}
             {{#if (eq @member.geolocation.country_code "US")}}
                 {{@member.geolocation.region}}, US
@@ -21,15 +21,15 @@
         {{else}}
             <span class="midlightgrey">Unknown</span>
         {{/if}}
-    </LinkTo>
+    </div>
 
-    <LinkTo @route="member" @model={{@member}} title="Member details" class="gh-list-data gh-members-list-subscribed-at gh-list-cellwidth-20 nowrap middarkgrey f8 {{if (not @member.name) "gh-members-subscribed-noname"}}">
+    <div title="Member details" class="gh-list-data gh-members-list-subscribed-at gh-list-cellwidth-20 nowrap middarkgrey f8 {{if (not @member.name) "gh-members-subscribed-noname"}}">
         {{moment-format @member.createdAtUTC "MMM DD, YYYY"}} <span class="midlightgrey">({{this.memberSince}})</span>
-    </LinkTo>
+    </div>
 
-    <LinkTo @route="member" @model={{@member}} title="Member details" class="gh-list-data gh-list-cellwidth-chevron gh-members-list-chevron">
+    <div title="Member details" class="gh-list-data gh-list-cellwidth-chevron gh-members-list-chevron">
         <div class="flex items-center justify-end w-100 h-100">
-            <span class="nr2">{{svg-jar "arrow-right" class="w6 h6 fill-midgrey pa1"}}</span>
+            {{!-- <span class="nr2">{{svg-jar "arrow-right" class="w6 h6 fill-midgrey pa1"}}</span> --}}
         </div>
-    </LinkTo>
+    </div>
 </li>
