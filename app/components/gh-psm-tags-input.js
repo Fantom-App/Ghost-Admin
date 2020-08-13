@@ -39,7 +39,7 @@ export default Component.extend({
         },
 
         hideCreateOptionOnMatchingTag(term) {
-            return !this.availableTagNames.includes(term.toLowerCase());
+            return false;
         },
 
         updateTags(newTags) {

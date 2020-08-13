@@ -45,7 +45,7 @@ export default Component.extend({
         },
 
         hideCreateOptionOnMatchingTag(term) {
-            return !this.availableTagNames.includes(term.toLowerCase());
+            return false;
         },
 
         updateTags(newTags) {
@@ -57,6 +57,10 @@ export default Component.extend({
                     tag.destroyRecord();
                 }
             });
+
+            if (newTags[0]) {
+                newTags = newTags[newTags.length - 1];
+            }
 
             let missingTags = this.get('post.tags').filterBy('type', 'collection');
             let allTags = missingTags.concat(newTags);
