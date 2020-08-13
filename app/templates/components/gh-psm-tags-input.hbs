@@ -4,6 +4,7 @@
     }}
     @onChange={{action "updateTags"}}
     @onCreate={{action "createTag"}}
+    @closeOnSelect={{true}}
     @options={{this.availableTags}}
     @renderInPlace={{true}}
     @selected={{this.selectedCollection}}
