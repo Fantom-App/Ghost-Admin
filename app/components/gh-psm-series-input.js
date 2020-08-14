@@ -59,7 +59,7 @@ export default Component.extend({
             });
 
             if (newTags[0]) {
-                newTags = newTags[newTags.length - 1];
+                newTags = [newTags[newTags.length - 1]];
             }
 
             let missingTags = this.get('post.tags').filterBy('type', 'collection');
