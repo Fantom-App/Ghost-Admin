@@ -370,23 +370,33 @@ export default Controller.extend({
         }
 
         try {
-            let post = yield this._savePost.perform(options);
-
-            post.set('statusScratch', null);
-
-            if (!options.silent) {
-                this._showSaveNotification(prevStatus, post.get('status'), isNew ? true : false);
+            let doneWriting = false;
+            if (this.get('post.status') === 'scheduled') {
+                doneWriting = true;
+            } else if (this.get('post.status') === 'published'){
+                doneWriting = true;
             }
+            if (this.post.contentType === 'video' && !this.post.mobiledoc.cards.length && doneWriting) {
+                this._showErrorAlert(prevStatus, this.get('post.status'), 'Make sure a video is in the post when the content type is set to Video.');
+            } else {
+                let post = yield this._savePost.perform(options);
 
-            // redirect to edit route if saving a new record
-            if (isNew && post.get('id')) {
-                if (!this.leaveEditorTransition) {
-                    this.replaceRoute('editor.edit', post);
+                post.set('statusScratch', null);
+
+                if (!options.silent) {
+                    this._showSaveNotification(prevStatus, post.get('status'), isNew ? true : false);
                 }
-                return true;
-            }
 
-            return post;
+                // redirect to edit route if saving a new record
+                if (isNew && post.get('id')) {
+                    if (!this.leaveEditorTransition) {
+                        this.replaceRoute('editor.edit', post);
+                    }
+                    return true;
+                }
+
+                return post;
+            }
         } catch (error) {
             // trigger upgrade modal if forbidden(403) error
             if (isHostLimitError(error)) {
