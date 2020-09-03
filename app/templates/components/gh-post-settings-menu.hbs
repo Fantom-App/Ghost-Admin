@@ -8,13 +8,15 @@
                 </button>
             </div>
             <div class="settings-menu-content">
-                <GhImageUploaderWithPreview
-                    @image={{this.post.featureImage}}
-                    @text={{concat "Upload " this.post.displayName " image"}}
-                    @allowUnsplash={{true}}
-                    @update={{action "setCoverImage"}}
-                    @remove={{action "clearCoverImage"}}
-                />
+                {{#if (eq this.type "post")}}
+                    <GhImageUploaderWithPreview
+                        @image={{this.post.featureImage}}
+                        @text={{concat "Upload " this.post.displayName " image"}}
+                        @allowUnsplash={{true}}
+                        @update={{action "setCoverImage"}}
+                        @remove={{action "clearCoverImage"}}
+                    />
+                {{/if}}
                 <form>
                 <div class="form-group">
                     <label for="url">{{capitalize this.post.displayName}} URL</label>
@@ -88,29 +90,32 @@
                 {{/if}}
                 
                 {{#if this.feature.members}}
-                    {{#if this.showVisibilityInput}}
-                        <div class="form-group">
-                            <label for="visibility-input">Post access</label>
-                            <GhPsmVisibilityInput @post={{this.post}} @triggerId="visibility-input" />
-                        </div>
+                    {{#if (eq this.type "post")}}
+                        {{#if this.showVisibilityInput}}
+                            <div class="form-group">
+                                <label for="visibility-input">Post access</label>
+                                <GhPsmVisibilityInput @post={{this.post}} @triggerId="visibility-input" />
+                            </div>
+                        {{/if}}
                     {{/if}}
                 {{/if}}
 
-
-                <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="customExcerpt">
-                    <label for="custom-excerpt">Excerpt</label>
-                    <GhTextarea
-                        @class="post-setting-custom-excerpt"
-                        @id="custom-excerpt"
-                        @name="post-setting-custom-excerpt"
-                        @value={{readonly this.customExcerptScratch}}
-                        @input={{action (mut this.customExcerptScratch) value="target.value"}}
-                        @focus-out={{action "setCustomExcerpt" this.customExcerptScratch}}
-                        @stopEnterKeyDownPropagation="true"
-                        data-test-field="custom-excerpt"
-                    />
-                    <GhErrorMessage @errors={{this.post.errors}} @property="customExcerpt" data-test-error="custom-excerpt" />
-                </GhFormGroup>
+                {{#if (eq this.type "post")}}
+                    <GhFormGroup @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="customExcerpt">
+                        <label for="custom-excerpt">Excerpt</label>
+                        <GhTextarea
+                            @class="post-setting-custom-excerpt"
+                            @id="custom-excerpt"
+                            @name="post-setting-custom-excerpt"
+                            @value={{readonly this.customExcerptScratch}}
+                            @input={{action (mut this.customExcerptScratch) value="target.value"}}
+                            @focus-out={{action "setCustomExcerpt" this.customExcerptScratch}}
+                            @stopEnterKeyDownPropagation="true"
+                            data-test-field="custom-excerpt"
+                        />
+                        <GhErrorMessage @errors={{this.post.errors}} @property="customExcerpt" data-test-error="custom-excerpt" />
+                    </GhFormGroup>
+                {{/if}}
 
                 {{#unless this.session.user.isAuthorOrContributor}}
                     <GhFormGroup @class="for-select" @errors={{this.post.errors}} @hasValidated={{this.post.hasValidated}} @property="authors" data-test-input="authors">

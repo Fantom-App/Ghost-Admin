@@ -376,7 +376,8 @@ export default Controller.extend({
             } else if (this.get('post.status') === 'published'){
                 doneWriting = true;
             }
-            if (this.post.contentType === 'video' && !this.post.mobiledoc.cards.length && doneWriting) {
+            
+            if (this.post.displayName === 'Post' && this.post.contentType === 'video' && !this.post.mobiledoc.cards.length && doneWriting) {
                 this._showErrorAlert(prevStatus, this.get('post.status'), 'Make sure a video is in the post when the content type is set to Video.');
             } else {
                 let post = yield this._savePost.perform(options);
