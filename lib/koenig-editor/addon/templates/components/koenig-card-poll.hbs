@@ -1,0 +1,57 @@
+<KoenigCard
+    @icon="koenig/kg-card-type-poll"
+    @class={{concat (kg-style "container-card") " kg-email-card mih10 miw-100 relative"}}
+    @style={{this.cardStyle}}
+    @headerOffset={{this.headerOffset}}
+    @toolbar={{this.toolbar}}
+    @payload={{this.payload}}
+    @isSelected={{this.isSelected}}
+    @isEditing={{this.isEditing}}
+    @selectCard={{action this.selectCard}}
+    @deselectCard={{action this.deselectCard}}
+    @editCard={{action this.editCard}}
+    @saveCard={{action this.saveCard}}
+    @onLeaveEdit={{action "leaveEditMode"}}
+    @addParagraphAfterCard={{this.addParagraphAfterCard}}
+    @moveCursorToPrevSection={{this.moveCursorToPrevSection}}
+    @moveCursorToNextSection={{this.moveCursorToNextSection}}
+    @editor={{this.editor}}
+    as |card|
+>
+    <div class="relative">
+        {{#each this.payload.options as |option index|}}
+            <div class="flex cereal-poll-option">
+                <input
+                    type="text"
+                    value={{option}}
+                    name={{index}}
+                    placeholder="Add an option..."
+                    class="cereal-poll-option-input pa2 ba br2 b--lightgrey-d2 f7 form-text lh-title tracked-2 h10"
+                    onblur={{action "updateOption" index}}
+                    onkeydown={{action "optionKeydown" index}}>
+                <button type="button" class="gh-blognav-delete cereal-poll-option-delete" {{action "removeOption" index}}>
+                    {{svg-jar "trash" class="stroke-darkgrey"}}<span class="sr-only">Delete</span>
+                </button>
+            </div>
+        {{/each}}
+        {{#if this.isSelected}}
+            <button class="cereal-poll-option-add flex justify-center items-center relative h9 bg-white anim-normal" onclick={{action "addOption"}}>
+                {{svg-jar "plus" class="w4 h4 stroke-middarkgrey i-strokew--2"}}
+                <span>New option</span>
+            </button>
+            <div class="cereal-poll-option-checkbox flex justify-center items-center relative h9 bg-white anim-normal">
+                <input id="poll-toggle" type="checkbox" checked={{this.payload.multipleOptions}} onchange={{action "toggleMultipleOptions" value="target.checked"}}>
+                <label for="poll-toggle">Allow users to choose multiple options</label>
+            </div>
+        {{/if}}
+
+    </div>
+
+
+    <div class="kg-card-help">
+        <p>
+            <span>Polls results can be viewed once the poll is published.</span>
+        </p>
+    </div>
+   
+</KoenigCard>

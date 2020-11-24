@@ -53,7 +53,7 @@ export default Component.extend(SettingsMenuMixin, {
         return this.metaTitleScratch || this.post.titleScratch || '(Untitled)';
     }),
 
-    liveUrl: computed('post.slug', 'post.contentType', 'post.visibility', function () {
+    liveUrl: computed('post.{slug,contentType,visibility}', function () {
         let staticSiteUrl = this.get('config.staticSiteUrl');
 
         let isPublic = this.post.visibility === 'public' ? 'public/' : '';

@@ -38,7 +38,7 @@ export default Component.extend({
             return tagName.toLowerCase() === term.trim().toLowerCase();
         },
 
-        hideCreateOptionOnMatchingTag(term) {
+        hideCreateOptionOnMatchingTag() {
             return false;
         },
 

@@ -830,7 +830,7 @@ export default Controller.extend({
         //     actions = `<a href="${path}" target="_blank">View ${type}</a>`;
         // }
 
-        notifications.showNotification(message, {description, type: 'success', /* actions: actions.htmlSafe(),*/  delayed: delay});
+        notifications.showNotification(message, {description, type: 'success', /* actions: actions.htmlSafe(),*/ delayed: delay});
     },
 
     _showErrorAlert(prevStatus, status, error, delay) {

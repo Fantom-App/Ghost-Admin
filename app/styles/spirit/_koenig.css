@@ -1101,3 +1101,33 @@
     left: 0;
     color: var(--midlightgrey);
 }
+
+.cereal-poll-option {
+    margin-bottom: 8px;
+}
+
+.cereal-poll-option-input {
+    flex: 1 1 auto;
+}
+
+.cereal-poll-option-delete {
+    padding: 8px 0px 8px 12px;
+}
+
+.cereal-poll-option-add:hover span {
+    text-decoration: underline;
+}
+
+.cereal-poll-option-add svg {
+    margin-right: 8px;
+}
+
+.cereal-poll-option-checkbox {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.cereal-poll-option-checkbox input {
+    margin-right: 8px;
+}
