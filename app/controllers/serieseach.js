@@ -7,7 +7,7 @@ import {inject as service} from '@ember/service';
 import {slugify} from '@tryghost/string';
 import {task, timeout} from 'ember-concurrency';
 
-const SCRATCH_PROPS = ['name', 'slug', 'description', 'metaTitle', 'metaDescription', 'featuredDescription'];
+const SCRATCH_PROPS = ['name', 'slug', 'description', 'metaTitle', 'metaDescription', 'featuredDescription', 'ytPlaylistId'];
 
 export default Controller.extend({
     notifications: service(),

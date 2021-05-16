@@ -56,6 +56,19 @@
             <p>Set this series as featured.</p>
         </GhFormGroup>
 
+        <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="ytPlaylistId">
+            <label for="tag-description">YouTube Playlist ID</label>
+            <GhTextInput
+                @id="yt_playlist_id"
+                @name="yt_playlist_id"
+                @tabindex="4"
+                @value={{this.scratchTag.ytPlaylistId}}
+                @focus-out={{action "setProperty" "ytPlaylistId" this.scratchTag.ytPlaylistId}}
+            />
+            <GhErrorMessage @errors={{this.tag.errors}} @property="yt_playlist_id" />
+            <p>Track a Youtube playlist, automatically populating this series with the playlist videos.</p>
+        </GhFormGroup>
+
         <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="featuredDescription">
             <label for="tag-description">Featured Headline</label>
             <GhTextInput

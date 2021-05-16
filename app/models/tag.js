@@ -10,6 +10,7 @@ export default Model.extend(ValidationEngine, {
     type: attr('string'),
     featured: attr('boolean', {defaultValue: false}),
     featuredDescription: attr('string'),
+    ytPlaylistId: attr('string'),
     slug: attr('string'),
     description: attr('string'),
     parent: attr('string'), // unused
