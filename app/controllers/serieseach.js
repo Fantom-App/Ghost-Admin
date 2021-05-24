@@ -1,13 +1,22 @@
-import Controller from '@ember/controller';
-import EmberObject from '@ember/object';
-import boundOneWay from 'ghost-admin/utils/bound-one-way';
-import {alias} from '@ember/object/computed';
-import {computed, defineProperty} from '@ember/object';
-import {inject as service} from '@ember/service';
-import {slugify} from '@tryghost/string';
-import {task, timeout} from 'ember-concurrency';
+import Controller from "@ember/controller";
+import EmberObject from "@ember/object";
+import boundOneWay from "ghost-admin/utils/bound-one-way";
+import { alias } from "@ember/object/computed";
+import { computed, defineProperty } from "@ember/object";
+import { inject as service } from "@ember/service";
+import { slugify } from "@tryghost/string";
+import { task, timeout } from "ember-concurrency";
 
-const SCRATCH_PROPS = ['name', 'slug', 'description', 'metaTitle', 'metaDescription', 'featuredDescription', 'ytPlaylistId'];
+const SCRATCH_PROPS = [
+    "name",
+    "slug",
+    "description",
+    "metaTitle",
+    "metaDescription",
+    "featuredDescription",
+    "ytPlaylistId",
+    "collection",
+];
 
 export default Controller.extend({
     notifications: service(),
@@ -15,11 +24,13 @@ export default Controller.extend({
 
     showDeleteTagModal: false,
 
-    tag: alias('model'),
+    tag: alias("model"),
 
-    scratchTag: computed('tag', function () {
-        let scratchTag = EmberObject.create({tag: this.tag});
-        SCRATCH_PROPS.forEach(prop => defineProperty(scratchTag, prop, boundOneWay(`tag.${prop}`)));
+    scratchTag: computed("tag", function () {
+        let scratchTag = EmberObject.create({ tag: this.tag });
+        SCRATCH_PROPS.forEach((prop) =>
+            defineProperty(scratchTag, prop, boundOneWay(`tag.${prop}`))
+        );
         return scratchTag;
     }),
 
@@ -29,15 +40,20 @@ export default Controller.extend({
         },
 
         toggleDeleteTagModal() {
-            this.toggleProperty('showDeleteTagModal');
+            this.toggleProperty("showDeleteTagModal");
         },
 
         deleteTag() {
-            return this.tag.destroyRecord().then(() => {
-                return this.transitionToRoute('series');
-            }, (error) => {
-                return this.notifications.showAPIError(error, {key: 'tag.delete'});
-            });
+            return this.tag.destroyRecord().then(
+                () => {
+                    return this.transitionToRoute("series");
+                },
+                (error) => {
+                    return this.notifications.showAPIError(error, {
+                        key: "tag.delete",
+                    });
+                }
+            );
         },
 
         save() {
@@ -48,13 +64,16 @@ export default Controller.extend({
             let leaveTransition = this.leaveScreenTransition;
 
             if (!transition && this.showUnsavedChangesModal) {
-                this.set('leaveScreenTransition', null);
-                this.set('showUnsavedChangesModal', false);
+                this.set("leaveScreenTransition", null);
+                this.set("showUnsavedChangesModal", false);
                 return;
             }
 
-            if (!leaveTransition || transition.targetName === leaveTransition.targetName) {
-                this.set('leaveScreenTransition', transition);
+            if (
+                !leaveTransition ||
+                transition.targetName === leaveTransition.targetName
+            ) {
+                this.set("leaveScreenTransition", transition);
 
                 // if a save is running, wait for it to finish then transition
                 if (this.save.isRunning) {
@@ -64,35 +83,35 @@ export default Controller.extend({
                 }
 
                 // we genuinely have unsaved data, show the modal
-                this.set('showUnsavedChangesModal', true);
+                this.set("showUnsavedChangesModal", true);
             }
         },
 
         leaveScreen() {
             this.tag.rollbackAttributes();
             return this.leaveScreenTransition.retry();
-        }
+        },
     },
 
     saveTask: task(function* () {
-        let {tag, scratchTag} = this;
+        let { tag, scratchTag } = this;
 
         // if Cmd+S is pressed before the field loses focus make sure we're
         // saving the intended property values
         let scratchProps = scratchTag.getProperties(SCRATCH_PROPS);
         tag.setProperties(scratchProps);
-        tag.type = 'series';
+        tag.type = "series";
 
         try {
             yield tag.save();
 
             // replace 'new' route with 'tag' route
-            this.replaceRoute('serieseach', tag);
+            this.replaceRoute("serieseach", tag);
 
             return tag;
         } catch (error) {
             if (error) {
-                this.notifications.showAPIError(error, {key: 'tag.save'});
+                this.notifications.showAPIError(error, { key: "tag.save" });
             }
         }
     }),
@@ -100,18 +119,21 @@ export default Controller.extend({
     save: task(function* () {
         yield this.saveTask.perform();
         yield timeout(2500);
-        if (this.get('saveTask.last.isSuccessful') && this.get('saveTask.last.value')) {
+        if (
+            this.get("saveTask.last.isSuccessful") &&
+            this.get("saveTask.last.value")
+        ) {
             // Reset last task to bring button back to idle state
-            yield this.set('saveTask.last', null);
+            yield this.set("saveTask.last", null);
         }
     }).drop(),
 
     fetchTag: task(function* (slug) {
-        this.set('isLoading', true);
+        this.set("isLoading", true);
 
-        yield this.store.queryRecord('tag', {slug}).then((tag) => {
-            this.set('tag', tag);
-            this.set('isLoading', false);
+        yield this.store.queryRecord("tag", { slug }).then((tag) => {
+            this.set("tag", tag);
+            this.set("isLoading", false);
             return tag;
         });
     }),
@@ -137,15 +159,15 @@ export default Controller.extend({
         tag.set(propKey, newValue);
 
         // Generate slug based on name for new tag when empty
-        if (propKey === 'name' && !tag.slug && tag.isNew) {
+        if (propKey === "name" && !tag.slug && tag.isNew) {
             let slugValue = slugify(newValue);
             if (/^#/.test(newValue)) {
-                slugValue = 'hash-' + slugValue;
+                slugValue = "hash-" + slugValue;
             }
-            tag.set('slug', slugValue);
+            tag.set("slug", slugValue);
         }
 
         // TODO: This is required until .validate/.save mark fields as validated
-        tag.get('hasValidated').addObject(propKey);
-    }
+        tag.get("hasValidated").addObject(propKey);
+    },
 });

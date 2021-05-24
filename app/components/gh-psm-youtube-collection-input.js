@@ -7,7 +7,7 @@ export default Component.extend({
     store: service(),
 
     // public attrs
-    post: null,
+    series: null,
     tagName: "",
 
     // internal attrs
@@ -34,9 +34,17 @@ export default Component.extend({
             "_availableTags",
             this.store.peekAll("tag").filterBy("type", "collection")
         );
-        this.set(
-            "selectedCollection",
-            this.post.tags.filterBy("type", "collection")
+
+        const selected = this.store
+            .peekAll("tag")
+            .findBy("id", this.series.collection);
+
+        this.set("selectedCollection", selected ? [selected] : []);
+        this.set("series.tags", selected ? [selected] : []);
+
+        console.log(
+            "this.store.peek :>> ",
+            this.store.peekAll("tag").filterBy("type", "collection")
         );
     },
 
@@ -50,37 +58,29 @@ export default Component.extend({
         },
 
         updateTags(newTags) {
-            let currentTags = this.get("post.tags");
+            const tag = newTags[0];
+            console.log("tag :>> ", tag);
+            console.log('this.get("tag.id") :>> ', tag.get("id"));
 
-            // destroy new+unsaved tags that are no longer selected
-            currentTags.forEach(function (tag) {
-                if (!newTags.includes(tag) && tag.get("isNew")) {
-                    tag.destroyRecord();
-                }
-            });
+            this.update(tag.get("id"));
 
-            let missingTags = this.get("post.tags").filterBy("type", "series");
-            let allTags = missingTags.concat(newTags);
-
-            // update tags
-            this.set("post.tags", allTags);
-            return this.set(
-                "selectedCollection",
-                this.post.tags.filterBy("type", "collection")
-            );
+            return this.set("selectedCollection", newTags);
         },
 
         createTag(tagName) {
-            let currentTags = this.get("post.tags");
-            let currentTagNames = currentTags.map((tag) =>
-                tag.get("name").toLowerCase()
-            );
+            console.log("tagName :>> ", tagName);
+            const selected = this.store
+                .peekAll("tag")
+                .findBy("id", this.get("series.collection"));
+
+            let currentTagName = selected.get("name").toLowerCase();
+
             let tagToAdd;
 
             tagName = tagName.trim();
 
             // abort if tag is already selected
-            if (currentTagNames.includes(tagName.toLowerCase())) {
+            if (currentTagName === tagName.toLowerCase()) {
                 return;
             }
 
@@ -89,17 +89,11 @@ export default Component.extend({
 
             // create new tag if no match
             if (!tagToAdd) {
-                tagToAdd = this.store.createRecord("tag", {
-                    name: tagName,
-                    type: "collection",
-                });
-
-                // set to public/internal based on the tag name
-                tagToAdd.updateVisibility();
+                return;
             }
 
-            // push tag onto post relationship
-            return currentTags.pushObject(tagToAdd);
+            // push tag onto series relationship
+            return [tagToAdd];
         },
     },
 

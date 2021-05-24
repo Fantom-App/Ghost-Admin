@@ -1,43 +1,47 @@
-import Model, {attr} from '@ember-data/model';
-import ValidationEngine from 'ghost-admin/mixins/validation-engine';
-import {equal} from '@ember/object/computed';
-import {inject as service} from '@ember/service';
+import Model, { attr } from "@ember-data/model";
+import ValidationEngine from "ghost-admin/mixins/validation-engine";
+import { equal } from "@ember/object/computed";
+import { inject as service } from "@ember/service";
 
 export default Model.extend(ValidationEngine, {
-    validationType: 'tag',
+    validationType: "tag",
 
-    name: attr('string'),
-    type: attr('string'),
-    featured: attr('boolean', {defaultValue: false}),
-    featuredDescription: attr('string'),
-    ytPlaylistId: attr('string'),
-    slug: attr('string'),
-    description: attr('string'),
-    parent: attr('string'), // unused
-    metaTitle: attr('string'),
-    metaDescription: attr('string'),
-    featureImage: attr('string'),
-    visibility: attr('string', {defaultValue: 'public'}),
-    createdAtUTC: attr('moment-utc'),
-    updatedAtUTC: attr('moment-utc'),
-    createdBy: attr('number'),
-    updatedBy: attr('number'),
-    count: attr('raw'),
+    name: attr("string"),
+    type: attr("string"),
+    featured: attr("boolean", { defaultValue: false }),
+    featuredDescription: attr("string"),
+    ytPlaylistId: attr("string"),
+    collection: attr("string"),
+    slug: attr("string"),
+    description: attr("string"),
+    parent: attr("string"), // unused
+    metaTitle: attr("string"),
+    metaDescription: attr("string"),
+    featureImage: attr("string"),
+    visibility: attr("string", { defaultValue: "public" }),
+    createdAtUTC: attr("moment-utc"),
+    updatedAtUTC: attr("moment-utc"),
+    createdBy: attr("number"),
+    updatedBy: attr("number"),
+    count: attr("raw"),
 
-    isInternal: equal('visibility', 'internal'),
-    isPublic: equal('visibility', 'public'),
+    isInternal: equal("visibility", "internal"),
+    isPublic: equal("visibility", "public"),
 
     feature: service(),
 
     updateVisibility() {
         let internalRegex = /^#.?/;
-        this.set('visibility', internalRegex.test(this.name) ? 'internal' : 'public');
+        this.set(
+            "visibility",
+            internalRegex.test(this.name) ? "internal" : "public"
+        );
     },
 
     save() {
-        if (this.get('changedAttributes.name') && !this.isDeleted) {
+        if (this.get("changedAttributes.name") && !this.isDeleted) {
             this.updateVisibility();
         }
         return this._super(...arguments);
-    }
+    },
 });

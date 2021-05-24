@@ -45,7 +45,7 @@
         </GhFormGroup>
         
         <GhFormGroup>
-            <label for="tag-description">Featured</label>
+            <label for="featured-checkbox">Featured</label>
             <div class="for-switch">
                 <label class="switch" for="featured-checkbox">
                     <Input @checked={{this.tag.featured}} @type="checkbox" @id="featured-checkbox"
@@ -56,21 +56,8 @@
             <p>Set this series as featured.</p>
         </GhFormGroup>
 
-        <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="ytPlaylistId">
-            <label for="tag-description">YouTube Playlist ID</label>
-            <GhTextInput
-                @id="yt_playlist_id"
-                @name="yt_playlist_id"
-                @tabindex="4"
-                @value={{this.scratchTag.ytPlaylistId}}
-                @focus-out={{action "setProperty" "ytPlaylistId" this.scratchTag.ytPlaylistId}}
-            />
-            <GhErrorMessage @errors={{this.tag.errors}} @property="yt_playlist_id" />
-            <p>Track a Youtube playlist, automatically populating this series with the playlist videos.</p>
-        </GhFormGroup>
-
         <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="featuredDescription">
-            <label for="tag-description">Featured Headline</label>
+            <label for="featured_description">Featured Headline</label>
             <GhTextInput
                 @id="featured_description"
                 @name="featured_description"
@@ -82,6 +69,30 @@
             <p>Headline is displayed on series card when this series is featured.</p>
         </GhFormGroup>
 
+        <GhFormGroup @errors={{this.tag.errors}} @hasValidated={{this.tag.hasValidated}} @property="ytPlaylistId">
+            <label for="yt_playlist_id">YouTube Playlist ID</label>
+            <GhTextInput
+                @id="yt_playlist_id"
+                @name="yt_playlist_id"
+                @tabindex="4"
+                @value={{this.scratchTag.ytPlaylistId}}
+                @focus-out={{action "setProperty" "ytPlaylistId" this.scratchTag.ytPlaylistId}}
+            />
+            <GhErrorMessage @errors={{this.tag.errors}} @property="yt_playlist_id" />
+            <p>Track a Youtube playlist, automatically populating this series with the playlist videos.</p>
+        </GhFormGroup>
+
+        {{#if hasYoutube}}
+        <div class="form-group">
+            <label for="collection-input">YouTube Playlist Collection</label>
+            <GhPsmYoutubeCollectionInput
+              @series={{this.tag}} 
+              @triggerId="collection-input"
+              @update={{action "setCollection"}}
+            />
+            <p>Adds videos created by YouTube playlist to the specified collection.</p>
+        </div>
+        {{/if}}
     </div>
     {{#if (eq this.tag.type "series")}}
         <div class="order-0 mb6 mb0-ns order-2-ns w-100 w-50-m w-third-l">

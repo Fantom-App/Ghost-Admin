@@ -1,10 +1,10 @@
-import Component from '@ember/component';
-import Ember from 'ember';
-import {computed} from '@ember/object';
-import {htmlSafe} from '@ember/string';
-import {inject as service} from '@ember/service';
+import Component from "@ember/component";
+import Ember from "ember";
+import { computed } from "@ember/object";
+import { htmlSafe } from "@ember/string";
+import { inject as service } from "@ember/service";
 
-const {Handlebars} = Ember;
+const { Handlebars } = Ember;
 
 export default Component.extend({
     feature: service(),
@@ -16,16 +16,20 @@ export default Component.extend({
     // Allowed actions
     setProperty: () => {},
 
-    title: computed('tag.isNew', function () {
-        if (this.get('tag.isNew')) {
-            return 'New tag';
+    hasYoutube: computed("scratchTag.ytPlaylistId", function () {
+        return !!this.scratchTag.ytPlaylistId;
+    }),
+
+    title: computed("tag.isNew", function () {
+        if (this.get("tag.isNew")) {
+            return "New tag";
         } else {
-            return 'Tag settings';
+            return "Tag settings";
         }
     }),
 
-    seoTitle: computed('scratchTag.{title,metaTitle}', function () {
-        let metaTitle = this.scratchTag.metaTitle || '';
+    seoTitle: computed("scratchTag.{title,metaTitle}", function () {
+        let metaTitle = this.scratchTag.metaTitle || "";
 
         metaTitle = metaTitle.length > 0 ? metaTitle : this.scratchTag.title;
 
@@ -38,15 +42,15 @@ export default Component.extend({
         return metaTitle;
     }),
 
-    seoURL: computed('scratchTag.slug', function () {
-        let staticSiteUrl = this.get('config.staticSiteUrl');
-        let seoSlug = this.scratchTag.slug || '';
+    seoURL: computed("scratchTag.slug", function () {
+        let staticSiteUrl = this.get("config.staticSiteUrl");
+        let seoSlug = this.scratchTag.slug || "";
 
         let seoURL = `${staticSiteUrl}/tag/${seoSlug}`;
 
         // only append a slash to the URL if the slug exists
         if (seoSlug) {
-            seoURL += '/';
+            seoURL += "/";
         }
 
         if (seoURL.length > 70) {
@@ -58,31 +62,42 @@ export default Component.extend({
         return seoURL;
     }),
 
-    seoDescription: computed('scratchTag.{description,metaDescription}', function () {
-        let metaDescription = this.scratchTag.metaDescription || '';
+    seoDescription: computed(
+        "scratchTag.{description,metaDescription}",
+        function () {
+            let metaDescription = this.scratchTag.metaDescription || "";
 
-        metaDescription = metaDescription.length > 0 ? metaDescription : this.scratchTag.description;
+            metaDescription =
+                metaDescription.length > 0
+                    ? metaDescription
+                    : this.scratchTag.description;
 
-        if (metaDescription && metaDescription.length > 156) {
-            metaDescription = metaDescription.substring(0, 156).trim();
-            metaDescription = Handlebars.Utils.escapeExpression(metaDescription);
-            metaDescription = htmlSafe(`${metaDescription}&hellip;`);
+            if (metaDescription && metaDescription.length > 156) {
+                metaDescription = metaDescription.substring(0, 156).trim();
+                metaDescription =
+                    Handlebars.Utils.escapeExpression(metaDescription);
+                metaDescription = htmlSafe(`${metaDescription}&hellip;`);
+            }
+
+            return metaDescription;
         }
-
-        return metaDescription;
-    }),
+    ),
 
     actions: {
         setProperty(property, value) {
             this.setProperty(property, value);
         },
 
+        setCollection(value) {
+            this.setProperty("collection", value);
+        },
+
         setCoverImage(image) {
-            this.setProperty('featureImage', image);
+            this.setProperty("featureImage", image);
         },
 
         clearCoverImage() {
-            this.setProperty('featureImage', '');
-        }
-    }
+            this.setProperty("featureImage", "");
+        },
+    },
 });
