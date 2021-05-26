@@ -26,13 +26,12 @@ export default Controller.extend({
     init() {
         this._super(...arguments);
         this.set('newNavItem', NavigationItem.create({isNew: true}));
-        this.set('newSecondaryNavItem', NavigationItem.create({isNew: true, isSecondary: true}));
     },
 
     showDeleteThemeModal: notEmpty('themeToDelete'),
 
-    blogUrl: computed('config.blogUrl', function () {
-        let url = this.get('config.blogUrl');
+    staticSiteUrl: computed("config.staticSiteUrl", function () {
+        let url = this.get("config.staticSiteUrl");
 
         return url.slice(-1) !== '/' ? `${url}/` : url;
     }),

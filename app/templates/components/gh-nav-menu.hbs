@@ -85,13 +85,14 @@
             {{#if (gh-user-is-owner this.session.user)}}
                 <li><LinkTo @route="staff" data-test-nav="staff">{{svg-jar "staff"}}Staff</LinkTo></li>
             {{/if}}
+            <li><LinkTo @route="settings.design" data-test-nav="design">{{svg-jar "link"}}Nav Links</LinkTo></li>
             <li><LinkTo @route="settings.general" data-test-nav="settings">{{svg-jar "settings"}}Settings</LinkTo></li>
+
         </ul>
 
         {{#if (gh-user-is-owner this.session.user)}}
             <ul class="gh-nav-list gh-nav-settings">
                 <li class="gh-nav-list-h">Admin Settings</li>
-                <li><LinkTo @route="settings.design" data-test-nav="design">{{svg-jar "paintbrush"}}Design</LinkTo></li>
                 <li><LinkTo @route="settings.code-injection" data-test-nav="code-injection">{{svg-jar "brackets"}}Code injection</LinkTo></li>
                 <li><LinkTo @route="settings.integrations" @current-when={{this.isIntegrationRoute}} data-test-nav="integrations">{{svg-jar "modules"}}Integrations</LinkTo></li>
                 <li class="relative">

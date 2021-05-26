@@ -42,7 +42,7 @@
             </form>
         </div>
 
-        <div class="gh-setting-header">Secondary Navigation</div>
+        {{!-- <div class="gh-setting-header">Secondary Navigation</div>
         <div class="gh-blognav-container pa5 pt6 bg-grouped-table shadow-1 br3">
             <form id="secondary-navigation" class="gh-blognav" novalidate="novalidate">
                 <SortableObjects @sortableObjectList={{this.settings.secondaryNavigation}} @useSwap={{false}}>
@@ -66,9 +66,9 @@
                     @updateUrl={{action "updateUrl"}}
                     data-test-navitem="new" />
             </form>
-        </div>
+        </div> --}}
 
-        <div class="gh-setting-header">Theme Directory</div>
+        {{!-- <div class="gh-setting-header">Theme Directory</div>
         <div class="gh-theme-directory-container">
             <div class="theme-directory">
                 <a class="td-item" href="https://github.com/TryGhost/Massively" target="_blank" rel="noopener noreferrer">
@@ -197,15 +197,15 @@
                     @close={{action "hideThemeWarningsModal"}}
                     @modifier="action wide" />
             {{/if}}
-        </div>
+        </div> --}}
 
     </section>
 </section>
 
 {{outlet}}
 
-<GhTourItem @throbberId="upload-a-theme"
+{{!-- <GhTourItem @throbberId="upload-a-theme"
     @target=".gh-themes-uploadbtn"
     @throbberAttachment="top middle"
     @popoverTriangleClass="bottom"
-/>
+/> --}}
