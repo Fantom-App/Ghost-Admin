@@ -17,7 +17,6 @@ export default Component.extend({
     }),
 
     init() {
-        console.log("object");
         this._super(...arguments);
         this.get("createVisibilities");
     },
@@ -26,11 +25,20 @@ export default Component.extend({
         "config.tiers.tier1",
         "config.tiers.tier2",
         function () {
-            this.availableVisibilities = [
-                { label: "Public", name: "public" },
-                { label: this.get("config.tiers.tier1"), name: "members" },
-                { label: this.get("config.tiers.tier2"), name: "paid" },
-            ];
+            this.availableVisibilities = [{ label: "Public", name: "public" }];
+
+            if (this.get("config.tiers.tier1")) {
+                this.availableVisibilities.push({
+                    label: this.get("config.tiers.tier1"),
+                    name: "members",
+                });
+            }
+            if (this.get("config.tiers.tier2")) {
+                this.availableVisibilities.push({
+                    label: this.get("config.tiers.tier2"),
+                    name: "paid",
+                });
+            }
         }
     ),
 
