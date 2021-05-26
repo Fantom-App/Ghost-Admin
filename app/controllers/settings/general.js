@@ -295,7 +295,20 @@ export default Controller.extend({
                 newUrl = oldUrl;
             }
 
-            if (newUrl.match(/(?:youtube\.com\user\/)(\S+)/) || newUrl.match(/([a-z\d.]+)/i)) {
+            if (newUrl.match(/(?:youtube\.com\/channel\/)(\S+)(?=\/)/)) {
+                let channel = [];
+
+                [, channel] = newUrl.match(/(?:youtube\.com\/channel\/)(\S+)(?=\/)/);
+
+                newUrl = `https://youtube.com/channel/${channel}`;
+
+                this.get('settings.hasValidated').pushObject('youtube');
+
+                this.set('settings.youtube', '');
+                run.schedule('afterRender', this, function () {
+                    this.set('settings.youtube', newUrl);
+                });
+            } else if (newUrl.match(/(?:youtube\.com\user\/)(\S+)/) || newUrl.match(/([a-z\d.]+)/i)) {
                 let username = [];
 
                 if (newUrl.match(/(?:youtube\.com\user\/)(\S+)/)) {
@@ -323,7 +336,8 @@ export default Controller.extend({
                 });
             } else {
                 errMessage = 'The URL must be in a format like '
-                           + 'https://youtube.com/user/yourUsername';
+                           + 'https://youtube.com/user/yourUsername'
+                           + 'https://youtube.com/channel/yourChannelId';
                 this.get('settings.errors').add('youtube', errMessage);
                 this.get('settings.hasValidated').pushObject('youtube');
                 return;
@@ -415,8 +429,8 @@ export default Controller.extend({
                 }
 
                 // check if username starts with http or www and show error if so
-                if (username.match(/^(http|www)|(\/)/) || !username.match(/^[a-z\d._]{1,15}$/mi)) {
-                    errMessage = !username.match(/^[a-z\d._]{1,15}$/mi) ? 'Your Username is not a valid Instagram Username' : 'The URL must be in a format like https://instagram.com/yourUsername';
+                if (username.match(/^(http|www)|(\/)/) || !username.match(/^[a-z\d._]{1,50}$/mi)) {
+                    errMessage = !username.match(/^[a-z\d._]{1,50}$/mi) ? 'Your Username is not a valid Instagram Username' : 'The URL must be in a format like https://instagram.com/yourUsername';
 
                     this.get('settings.errors').add('instagram', errMessage);
                     this.get('settings.hasValidated').pushObject('instagram');
